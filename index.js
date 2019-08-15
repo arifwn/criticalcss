@@ -35,6 +35,11 @@ app.post('/web/submit/', (req, res) => {
     return;
   }
 
+  if (key !== secretKey) {
+    res.status(403).send("Invalid secret key!")
+    return;
+  }
+
   console.log(`generating critical css for ${url}`);
   generator.generateCritical(url)
     .then(css => {
@@ -59,6 +64,11 @@ app.post('/api/submit/', (req, res) => {
     return;
   }
 
+  if (key !== secretKey) {
+    res.status(403).send({ error: "Invalid secret key!" })
+    return;
+  }
+
   console.log(`generating critical css for ${url}`);
   generator.generateCritical(url)
     .then(css => {
@@ -78,8 +88,17 @@ app.post('/api/submit/async/', (req, res) => {
   let key = req.body.key ? req.body.key : false;
   let url = req.body.url ? req.body.url : false;
   let callbackUrl = req.body.callback_url ? req.body.callback_url : false;
+  let delay = req.body.delay ? parseFloat(req.body.delay) : 1;
+
   if (!url || !key || !callbackUrl) {
     res.status(400).send({ error: "Use POST with key, url and callback_url parameters." })
+    return;
+  }
+
+  if (isNaN(delay)) delay = 10;
+
+  if (key !== secretKey) {
+    res.status(403).send({ error: "Invalid secret key!" })
     return;
   }
 
@@ -108,7 +127,7 @@ app.post('/api/submit/async/', (req, res) => {
     .catch(err => {
       console.log(err)
     })
-  }, 0)
+  }, delay*1000)
   res.send({ queued: true });
 })
 
