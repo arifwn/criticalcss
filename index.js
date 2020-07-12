@@ -22,6 +22,11 @@ app.get('/robots.txt', (req, res) => {
   res.send("User-agent: *\nDisallow: /")
 })
 
+app.get('/check/readiness/', (req, res) => {
+  res.setHeader('Content-Type', 'text/plain');
+  res.send("Ready")
+})
+
 app.get('/web/submit/', (req, res) => {
   res.setHeader('Content-Type', 'text/plain');
   res.send("Use POST with key and url parameters.")
@@ -40,13 +45,14 @@ app.post('/web/submit/', (req, res) => {
     return;
   }
 
-  console.log(`generating critical css for ${url}`);
+  console.log(`received request to generate critical css for ${url}`);
   generator.generateCritical(url)
     .then(css => {
       res.setHeader('Content-Type', 'text/plain');
       res.send(css);
     })
     .catch(err => {
+      console.error(err)
       res.status(500).send('')
     })
 })
@@ -69,7 +75,7 @@ app.post('/api/submit/', (req, res) => {
     return;
   }
 
-  console.log(`generating critical css for ${url}`);
+  console.log(`received request to generate critical css for ${url}`);
   generator.generateCritical(url)
     .then(css => {
       res.send({ css: css });
@@ -103,7 +109,7 @@ app.post('/api/submit/async/', (req, res) => {
   }
 
   setTimeout(() => {
-    console.log(`generating critical css for ${url}`);
+    console.log(`received request to generate critical css for ${url}`);
     generator.generateCritical(url)
     .then(css => {
       console.log(`critical css generated for ${url}`);

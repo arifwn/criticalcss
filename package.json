@@ -1,6 +1,6 @@
 {
   "name": "critical-css-server",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An online service to generate Critical CSS from any url",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "critical": "^1.3.4",
+    "critical": "^2.0.1",
     "express": "^4.17.1",
     "node-fetch": "^2.6.0"
   }
