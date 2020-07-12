@@ -13,6 +13,9 @@ const generateCritical = async (url) => {
       minify: false,
       base: 'dist',
       src: url,
+      penthouse: {
+        timeout: 90000,
+      },
       dimensions: [
         {
           height: 375,
