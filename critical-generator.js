@@ -13,7 +13,7 @@ const generateCritical = async (url) => {
     base: 'dist',
     src: url,
     penthouse: {
-      timeout: 90000,
+      timeout: 40000,
       pageLoadSkipTimeout: 30000,
     },
     dimensions: [
