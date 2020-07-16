@@ -52,8 +52,10 @@ app.post('/web/submit/', (req, res) => {
       res.send(css);
     })
     .catch(err => {
-      console.error(err)
-      res.status(500).send('')
+      // console.error(err);
+      console.error(err.name);
+      console.error(err.message);
+      res.status(500).send(`${err.name} ${err.message}`);
     })
 })
 
@@ -81,7 +83,10 @@ app.post('/api/submit/', (req, res) => {
       res.send({ css: css });
     })
     .catch(err => {
-      res.status(500).send({ error: `${err}` })
+      // console.error(err);
+      console.error(err.name);
+      console.error(err.message);
+      res.status(500).send({error: `${err.name} ${err.message}`});
     })
 })
 
@@ -131,7 +136,9 @@ app.post('/api/submit/async/', (req, res) => {
         });
     })
     .catch(err => {
-      console.log(err)
+      // console.error(err);
+      console.error(err.name);
+      console.error(err.message);
     })
   }, delay*1000)
   res.send({ queued: true });
